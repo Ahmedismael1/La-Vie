@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:la_vie/app_cubit/cubit.dart';
 import 'package:la_vie/app_cubit/states.dart';
-import 'package:la_vie/layout/Cart/cart_layout.dart';
-import 'package:la_vie/layout/Forums/forums_layout.dart';
+
 import 'package:la_vie/layout/SignupAndIn/SignupAndIn_layout.dart';
-import 'package:la_vie/layout/blogs/blogs_layout.dart';
 import 'package:la_vie/layout/home/home_layout.dart';
-import 'package:la_vie/layout/product_details/product_details_layout.dart';
 import 'package:la_vie/shared/bloc_observer/bloc_observer.dart';
 import 'package:la_vie/shared/dio/dio_helper.dart';
 import 'package:la_vie/shared/shared_preference/shared_preferences.dart';
@@ -50,7 +47,7 @@ class MyApp extends StatelessWidget {
       MultiBlocProvider(
         providers: [
           BlocProvider(create:
-              (context) => AppCubit()..getPlants()..getTools()..getSeeds()..getBlogs())
+              (context) => AppCubit()..getPlants()..getTools()..getSeeds()..getBlogs()..getMyForums()..getALLForums())
 
         ],
         child: BlocConsumer<AppCubit, AppStates>(

@@ -41,6 +41,43 @@ class  GetBlogsErrorState extends  AppStates{
    GetBlogsErrorState({this.error});
 }
 
+class GetAllForumsLoadingState extends  AppStates{}
+class  GetAllForumsSuccessState extends  AppStates{}
+class  GetAllForumsErrorState extends  AppStates{
+  String error;
+  GetAllForumsErrorState({this.error});
+}
+
+class GetMyForumsLoadingState extends  AppStates{}
+class  GetMyForumsSuccessState extends  AppStates{}
+class  GetMyForumsErrorState extends  AppStates{
+  String error;
+  GetMyForumsErrorState({this.error});
+}
+
+class CreatePostLoadingState extends  AppStates{}
+class  CreatePostSuccessState extends  AppStates{}
+class  CreatePostErrorState extends  AppStates{
+  String error;
+  CreatePostErrorState({this.error});
+}
+
+class ChangeForumsState extends  AppStates{}
+
+
+
+class  InsertItemSuccessState extends  AppStates{}
+class  InsertItemErrorState extends  AppStates{
+  String error;
+  InsertItemErrorState({this.error});
+}
+
+class  GetPostImageSuccessState extends  AppStates{}
+class  GetPostImageErrorState extends  AppStates{
+  String error;
+  GetPostImageErrorState({this.error});
+}
+
 class IncreaseQualityState extends AppStates{}
 class DecreaseQualityState extends AppStates{}
 

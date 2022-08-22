@@ -5,10 +5,12 @@ import 'package:la_vie/app_cubit/cubit.dart';
 import 'package:la_vie/app_cubit/states.dart';
 import 'package:la_vie/models/plant_details_model.dart';
 
+import '../../shared/reusables/reusables_appbar.dart';
+
 class ProductDetailsLayout extends StatelessWidget {
 
-  String name ,imageUrl,description;
-  ProductDetailsLayout({this.description,this.name,this.imageUrl});
+  String name ,imageUrl,description,id;
+  ProductDetailsLayout({this.description,this.name,this.imageUrl,this.id});
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit,AppStates>(
@@ -30,105 +32,7 @@ class ProductDetailsLayout extends StatelessWidget {
             ),
             Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                        left: 70,
-                      ),
-                      child: Image.asset('images/logo.jpeg',
-                          fit: BoxFit.fill, width: 100, height: 50),
-                    ),
-                    Spacer(),
-                    Row(
-                      children: [
-                        TextButton(
-                            style: TextButton.styleFrom(
-                                padding: EdgeInsets.all(35)),
-                            onPressed: () {},
-                            child: Text(
-                              'Home',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500),
-                            )),
-                        TextButton(
-                            style: TextButton.styleFrom(
-                                padding: EdgeInsets.all(35)),
-                            onPressed: () {},
-                            child: Text(
-                              'Shop',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500),
-                            )),
-                        TextButton(
-                            style: TextButton.styleFrom(
-                                padding: EdgeInsets.all(35)),
-                            onPressed: () {},
-                            child: Text(
-                              'Blog',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500),
-                            )),
-                        TextButton(
-                            style: TextButton.styleFrom(
-                                padding: EdgeInsets.all(35)),
-                            onPressed: () {},
-                            child: Text(
-                              'About',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500),
-                            )),
-                        TextButton(
-                            style: TextButton.styleFrom(
-                                padding: EdgeInsets.all(35)),
-                            onPressed: () {},
-                            child: Text(
-                              'community',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500),
-                            )),
-                      ],
-                    ),
-                    Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.shopping_cart),
-                            iconSize: 20,
-                          ),
-                          IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.park),
-                              iconSize: 20),
-                          TextButton(
-                            onPressed: () {},
-                            child: CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                'images/userimage.jpg',
-                              ),
-                              radius: 10,
-                            ),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+                buildAppbar(context),
                 Row(
 
                   children: [
@@ -403,8 +307,17 @@ class ProductDetailsLayout extends StatelessWidget {
                               padding: const EdgeInsets.all(18.0),
                               child: TextButton(
                                   onPressed: () {
+                                    AppCubit.get(context).insertItemToCard(
+                                 {
+                                 'name' : name,
+                                 'description' : description,
+                                 'imageBase64' : 'magna cillum enim ad',
+                                 "type": "labore sed elit",
+                                 "price": "70 EGP",
+                                 "itemId": id,
+                                 }
 
-
+                                    );
                                   },
                                   style: TextButton.styleFrom(
                                     elevation: 5,

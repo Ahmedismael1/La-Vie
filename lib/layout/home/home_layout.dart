@@ -7,6 +7,7 @@ import 'package:la_vie/layout/questions/question_layout.dart';
 import 'package:la_vie/models/plants_model.dart';
 import 'package:la_vie/models/seeds_model.dart';
 import 'package:la_vie/models/tools_model.dart';
+import 'package:la_vie/shared/reusables/reusables_appbar.dart';
 
 class HomeLayout extends StatelessWidget {
   @override
@@ -31,105 +32,7 @@ class HomeLayout extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                left: 70,
-                              ),
-                              child: Image.asset('images/logo.jpeg',
-                                  fit: BoxFit.fill, width: 100, height: 50),
-                            ),
-                            Spacer(),
-                            Row(
-                              children: [
-                                TextButton(
-                                    style:
-                                    TextButton.styleFrom(padding: EdgeInsets.all(35)),
-                                    onPressed: () {},
-                                    child: Text(
-                                      'Home',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500),
-                                    )),
-                                TextButton(
-                                    style:
-                                    TextButton.styleFrom(padding: EdgeInsets.all(35)),
-                                    onPressed: () {},
-                                    child: Text(
-                                      'Shop',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500),
-                                    )),
-                                TextButton(
-                                    style:
-                                    TextButton.styleFrom(padding: EdgeInsets.all(35)),
-                                    onPressed: () {},
-                                    child: Text(
-                                      'Blog',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500),
-                                    )),
-                                TextButton(
-                                    style:
-                                    TextButton.styleFrom(padding: EdgeInsets.all(35)),
-                                    onPressed: () {},
-                                    child: Text(
-                                      'About',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500),
-                                    )),
-                                TextButton(
-                                    style:
-                                    TextButton.styleFrom(padding: EdgeInsets.all(35)),
-                                    onPressed: () {},
-                                    child: Text(
-                                      'community',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500),
-                                    )),
-                              ],
-                            ),
-                            Spacer(),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(Icons.shopping_cart),
-                                    iconSize: 20,
-                                  ),
-                                  IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(Icons.notifications_none),
-                                      iconSize: 20),
-                                  TextButton(
-                                    onPressed: () {},
-                                    child: CircleAvatar(
-                                      backgroundImage: NetworkImage(
-                                        'images/userimage.jpg',
-                                      ),
-                                      radius: 10,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
+                       buildAppbar(context),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -755,9 +658,13 @@ class HomeLayout extends StatelessWidget {
 
       AppCubit.get(context).getPlantDetails(plantId:plantsData.plantId );
       Navigator.push(context, MaterialPageRoute(
-          builder: (context)=>ProductDetailsLayout(name:plantsData.name ,imageUrl:plantsData.imageUrl ,description: plantsData.description,)));
-
-    },);
+          builder: (context)=>ProductDetailsLayout(
+            id: plantsData.plantId,name:plantsData.name ,imageUrl:plantsData.imageUrl
+            ,description: plantsData.description,)));
+      print(plantsData.name);
+      print(plantsData.imageUrl);
+      print(plantsData.description);
+        },);
 
 
   Widget builderTools(int index,ToolsData toolsData) =>InkWell(

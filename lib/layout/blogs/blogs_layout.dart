@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:la_vie/app_cubit/cubit.dart';
 import 'package:la_vie/app_cubit/states.dart';
 import 'package:la_vie/models/blogs_model.dart';
+import 'package:la_vie/shared/reusables/reusables_appbar.dart';
 
 class BlogsLayout extends StatelessWidget {
 
-  int childAspectRatio=1078;
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit,AppStates>(listener: (context,state){},
@@ -30,106 +30,8 @@ class BlogsLayout extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                            left: 70,
-                          ),
-                          child: Image.asset('images/logo.jpeg',
-                              fit: BoxFit.fill, width: 100, height: 50),
-                        ),
-                        Spacer(),
-                        Row(
-                          children: [
-                            TextButton(
-                                style: TextButton.styleFrom(
-                                    padding: EdgeInsets.all(35)),
-                                onPressed: () {},
-                                child: Text(
-                                  'Home',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500),
-                                )),
-                            TextButton(
-                                style: TextButton.styleFrom(
-                                    padding: EdgeInsets.all(35)),
-                                onPressed: () {},
-                                child: Text(
-                                  'Shop',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500),
-                                )),
-                            TextButton(
-                                style: TextButton.styleFrom(
-                                    padding: EdgeInsets.all(35)),
-                                onPressed: () {},
-                                child: Text(
-                                  'Blog',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500),
-                                )),
-                            TextButton(
-                                style: TextButton.styleFrom(
-                                    padding: EdgeInsets.all(35)),
-                                onPressed: () {},
-                                child: Text(
-                                  'About',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500),
-                                )),
-                            TextButton(
-                                style: TextButton.styleFrom(
-                                    padding: EdgeInsets.all(35)),
-                                onPressed: () {},
-                                child: Text(
-                                  'community',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500),
-                                )),
-                          ],
-                        ),
-                        Spacer(),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              IconButton(
-                                onPressed: () {},
-                                icon: Icon(Icons.shopping_cart),
-                                iconSize: 20,
-                              ),
-                              IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(Icons.park),
-                                  iconSize: 20),
-                              TextButton(
-                                onPressed: () {},
-                                child: CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                    'images/userimage.jpg',
-                                  ),
-                                  radius: 10,
-                                ),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                    Padding(
+                      buildAppbar(context),
+                      Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: Row(
                         children: [
@@ -283,105 +185,7 @@ class BlogsLayout extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
 
                     children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                            left: 70,
-                          ),
-                          child: Image.asset('images/logo.jpeg',
-                              fit: BoxFit.fill, width: 100, height: 50),
-                        ),
-                        Spacer(),
-                        Row(
-                          children: [
-                            TextButton(
-                                style: TextButton.styleFrom(
-                                    padding: EdgeInsets.all(35)),
-                                onPressed: () {},
-                                child: Text(
-                                  'Home',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500),
-                                )),
-                            TextButton(
-                                style: TextButton.styleFrom(
-                                    padding: EdgeInsets.all(35)),
-                                onPressed: () {},
-                                child: Text(
-                                  'Shop',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500),
-                                )),
-                            TextButton(
-                                style: TextButton.styleFrom(
-                                    padding: EdgeInsets.all(35)),
-                                onPressed: () {},
-                                child: Text(
-                                  'Blog',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500),
-                                )),
-                            TextButton(
-                                style: TextButton.styleFrom(
-                                    padding: EdgeInsets.all(35)),
-                                onPressed: () {},
-                                child: Text(
-                                  'About',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500),
-                                )),
-                            TextButton(
-                                style: TextButton.styleFrom(
-                                    padding: EdgeInsets.all(35)),
-                                onPressed: () {},
-                                child: Text(
-                                  'community',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500),
-                                )),
-                          ],
-                        ),
-                        Spacer(),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              IconButton(
-                                onPressed: () {},
-                                icon: Icon(Icons.shopping_cart),
-                                iconSize: 20,
-                              ),
-                              IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(Icons.park),
-                                  iconSize: 20),
-                              TextButton(
-                                onPressed: () {},
-                                child: CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                    'images/userimage.jpg',
-                                  ),
-                                  radius: 10,
-                                ),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
+                      buildAppbar(context),
                     Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: Row(
@@ -532,105 +336,7 @@ class BlogsLayout extends StatelessWidget {
                 Column(
 crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: 70,
-                        ),
-                        child: Image.asset('images/logo.jpeg',
-                            fit: BoxFit.fill, width: 100, height: 50),
-                      ),
-                      Spacer(),
-                      Row(
-                        children: [
-                          TextButton(
-                              style: TextButton.styleFrom(
-                                  padding: EdgeInsets.all(35)),
-                              onPressed: () {},
-                              child: Text(
-                                'Home',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500),
-                              )),
-                          TextButton(
-                              style: TextButton.styleFrom(
-                                  padding: EdgeInsets.all(35)),
-                              onPressed: () {},
-                              child: Text(
-                                'Shop',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500),
-                              )),
-                          TextButton(
-                              style: TextButton.styleFrom(
-                                  padding: EdgeInsets.all(35)),
-                              onPressed: () {},
-                              child: Text(
-                                'Blog',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500),
-                              )),
-                          TextButton(
-                              style: TextButton.styleFrom(
-                                  padding: EdgeInsets.all(35)),
-                              onPressed: () {},
-                              child: Text(
-                                'About',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500),
-                              )),
-                          TextButton(
-                              style: TextButton.styleFrom(
-                                  padding: EdgeInsets.all(35)),
-                              onPressed: () {},
-                              child: Text(
-                                'community',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500),
-                              )),
-                        ],
-                      ),
-                      Spacer(),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.shopping_cart),
-                              iconSize: 20,
-                            ),
-                            IconButton(
-                                onPressed: () {},
-                                icon: Icon(Icons.park),
-                                iconSize: 20),
-                            TextButton(
-                              onPressed: () {},
-                              child: CircleAvatar(
-                                backgroundImage: NetworkImage(
-                                  'images/userimage.jpg',
-                                ),
-                                radius: 10,
-                              ),
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
+                    buildAppbar(context),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: Row(

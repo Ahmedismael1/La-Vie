@@ -9,6 +9,8 @@ import 'package:la_vie/layout/home/home_layout.dart';
 import 'package:la_vie/layout/questions/question_list.dart';
 import 'package:la_vie/shared/my_widget.dart';
 
+import '../../shared/reusables/reusables_appbar.dart';
+
 class QuestionLayout extends StatelessWidget {
 
   @override
@@ -26,106 +28,7 @@ class QuestionLayout extends StatelessWidget {
                   image: AssetImage('images/homeBackground.jpeg'),
                   width: MediaQuery.of(context).size.width * 0.45,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                        left: 70,
-                      ),
-                      child: Image.asset('images/logo.jpeg',
-                          fit: BoxFit.fill, width: 100, height: 50),
-                    ),
-                    Spacer(),
-                    Row(
-                      children: [
-                        TextButton(
-                            style:
-                            TextButton.styleFrom(padding: EdgeInsets.all(35)),
-                            onPressed: () {},
-                            child: Text(
-                              'Home',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500),
-                            )),
-                        TextButton(
-                            style:
-                            TextButton.styleFrom(padding: EdgeInsets.all(35)),
-                            onPressed: () {},
-                            child: Text(
-                              'Shop',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500),
-                            )),
-                        TextButton(
-                            style:
-                            TextButton.styleFrom(padding: EdgeInsets.all(35)),
-                            onPressed: () {},
-                            child: Text(
-                              'Blog',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500),
-                            )),
-                        TextButton(
-                            style:
-                            TextButton.styleFrom(padding: EdgeInsets.all(35)),
-                            onPressed: () {},
-                            child: Text(
-                              'About',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500),
-                            )),
-                        TextButton(
-                            style:
-                            TextButton.styleFrom(padding: EdgeInsets.all(35)),
-                            onPressed: () {},
-                            child: Text(
-                              'community',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500),
-                            )),
-                      ],
-                    ),
-                    Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.shopping_cart),
-                            iconSize: 20,
-                          ),
-                          IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.park),
-                              iconSize: 20),
-                          TextButton(
-                            onPressed: () {},
-                            child: CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                'images/userimage.jpg',
-                              ),
-                              radius: 10,
-                            ),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-
+                buildAppbar(context),
                 Padding(
                   padding: const EdgeInsets.all(150.0),
                   child: Card(

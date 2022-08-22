@@ -14,6 +14,7 @@ class ReusableTextFiled extends StatelessWidget {
       onChanged: onChange
       ,keyboardType: textInputType,
       decoration: InputDecoration(
+
 hintText: hintText,
         border: OutlineInputBorder(
           borderSide: const BorderSide(
