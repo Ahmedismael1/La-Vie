@@ -39,13 +39,14 @@ class DioHelper {
     String url,
      Map<String, dynamic> data,
     Map<String, dynamic> query,
-    String token,
   }) async
   {
     dio.options.headers =
     {
       'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ${accessToken}'
+
     };
 
     return dio.post(
@@ -73,5 +74,18 @@ class DioHelper {
       queryParameters: query,
       data: data,
     );
+  }
+
+  static Future<Response> patchData({
+     String url,
+    Map<String , dynamic> query,
+     Map<String , dynamic> data,
+    String token ,
+  }) async {
+    dio.options.headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ${accessToken}',
+    };
   }
 }

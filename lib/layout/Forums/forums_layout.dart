@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:la_vie/add_post/add_post_layout.dart';
 import 'package:la_vie/app_cubit/cubit.dart';
 import 'package:la_vie/app_cubit/states.dart';
+import 'package:la_vie/layout/add_post/add_post_layout.dart';
 import 'package:la_vie/models/forums_model.dart';
 import 'package:la_vie/models/my_forums_model.dart';
 import 'package:la_vie/shared/my_widget.dart';
@@ -148,7 +148,7 @@ class ForumsLayout extends StatelessWidget {
                               height: 500,
                               child: ListView.separated(
                                 physics:const BouncingScrollPhysics(),
-                                itemBuilder: (context, index) => buildMyForums( AppCubit.get(context).myForumsModel.data[index]),
+                                itemBuilder: (context, index) => buildMyForums( AppCubit.get(context).myForumsModel.data[index],context),
                                 separatorBuilder: (context, index) => const SizedBox(
                                   height: 6,
                                 ),
@@ -252,7 +252,7 @@ class ForumsLayout extends StatelessWidget {
 
 
 
-  Widget buildMyForums(MyForumsData myForumsData ){
+  Widget buildMyForums(MyForumsData myForumsData,context ){
     return Card(
       elevation: 10,
       child: Container(
@@ -268,7 +268,7 @@ class ForumsLayout extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.all(2),
                           child: CircleAvatar(
-                            backgroundImage: NetworkImage('${myForumsData.user.imageUrl}'),
+                            backgroundImage: NetworkImage('${AppCubit.get(context).currentUserModel.data.imageUrl}'),
                             radius: 24,
                           ),
                         ),

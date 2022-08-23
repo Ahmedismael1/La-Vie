@@ -2,10 +2,12 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:la_vie/app_cubit/cubit.dart';
 import 'package:la_vie/layout/Cart/cart_layout.dart';
 import 'package:la_vie/layout/Forums/forums_layout.dart';
 import 'package:la_vie/layout/blogs/blogs_layout.dart';
 import 'package:la_vie/layout/home/home_layout.dart';
+import 'package:la_vie/layout/my_profile/my_profile_layout.dart';
 
 Color homeColor =Color(0xff1abc00);
 Color shopColor =Colors.black;
@@ -139,10 +141,13 @@ Widget buildAppbar(context){
                 icon: Icon(Icons.notifications),
                 iconSize: 20),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>MyProfileLayout()));
+
+              },
               child: CircleAvatar(
                 backgroundImage: NetworkImage(
-                  'images/userimage.jpg',
+                  AppCubit.get(context).currentUserModel.data.imageUrl,
                 ),
                 radius: 10,
               ),

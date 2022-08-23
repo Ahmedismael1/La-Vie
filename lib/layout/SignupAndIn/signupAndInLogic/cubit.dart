@@ -56,9 +56,6 @@ class SignupAndInCubit extends Cubit<SignupAndInStates> {
     ).then((value) {
       loginModel = LogInModel.fromJson(value.data);
       emit(LoginSuccessState(loginModel));
-    }).catchError((error) {
-      print(error);
-      emit(LoginErrorState(error: error.toString()));
     });
   }
 

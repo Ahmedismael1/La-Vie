@@ -1,7 +1,8 @@
 
 
-import 'dart:io';
-
+import 'dart:html';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:la_vie/app_cubit/states.dart';
@@ -14,6 +15,8 @@ import 'package:la_vie/models/seeds_model.dart';
 import 'package:la_vie/models/tools_model.dart';
 import 'package:la_vie/shared/constants/access_token.dart';
 import 'package:la_vie/shared/dio/dio_helper.dart';
+
+import '../models/current_user_model.dart';
 
 class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(AppStatesInitialState());
@@ -93,7 +96,6 @@ emit(GetPlantDetailsLoadingState());
     DioHelper.postData(
         url: 'api/v1/products',
         data: data,
-      token: accessToken
     ).then((value) {
       print("Insert Item Success : ${value.data}");
       emit(InsertItemSuccessState());
@@ -155,17 +157,10 @@ MyForumsModel myForumsModel;
     });
   }
 
-
-  bool isAllForums=true;
-  void changeForumsType(){
-    isAllForums=!isAllForums;
-    emit(ChangeForumsState());
-  }
-
   void createPost({
-     String title,
-     String description,
-     File image,
+    String title,
+    String description,
+    File image,
 
   }){
 
@@ -192,20 +187,138 @@ MyForumsModel myForumsModel;
 
   }
 
-  File postImage ;
-  var picker = ImagePicker();
+  bool isAllForums=true;
+  void changeForumsType(){
+    isAllForums=!isAllForums;
+    emit(ChangeForumsState());
+  }
 
+  bool isChangeProfile=false;
+  void changeInfoType(){
+    isChangeProfile=!isChangeProfile;
+    emit(ChangeInfoState());
+  }
+
+  void sendAddress({
+     String address,
+  }){
+
+    emit(AddAddressLoadingState());
+
+    DioHelper.postData(
+        url: 'api/v1/user/me/claimFreeSeeds',
+        data: {
+          "address": address,
+        }
+    ).then((value) {
+
+      print(value.data);
+      emit(AddAddressSuccessState());
+
+    }).catchError((error){
+
+      print('Error in send address is ${error.toString()}');
+      emit(AddAddressErrorState());
+    });
+
+
+  }
+
+  var picker = ImagePicker();
+  //
+  // Future <void> getPostImage() async {
+  //   final pickedFile = await picker.pickImage(
+  //     source: ImageSource.gallery,
+  //   );
+  //   if (pickedFile != null) {
+  //     postImage = File(pickedFile.path);
+  //     emit(GetPostImageSuccessState());
+  //   } else {
+  //     print('No Image selected.');
+  //     emit(GetPostImageErrorState());
+  //   }
+  // }
+  //
   Future <void> getPostImage() async {
-    final pickedFile = await picker.pickImage(
-      source: ImageSource.gallery,
-    );
-    if (pickedFile != null) {
-      postImage = File(pickedFile.path);
-      emit(GetPostImageSuccessState());
-    } else {
-      print('No Image selected.');
-      emit(GetPostImageErrorState());
+     final pickedFile = await picker.pickImage(
+       source: ImageSource.gallery,
+     );
+     if (pickedFile != null) {
+       // postImage = File(pickedFile.path);
+       emit(GetPostImageSuccessState());
+     } else {
+       print('No Image selected.');
+       emit(GetPostImageErrorState());
+     }
+   }
+  var postImage;
+
+  void getPostImage2()async{
+    var picked= await FilePicker.platform.pickFiles(type: FileType.any, allowMultiple: true);
+
+    if (picked != null) {
+      print(picked.files.first.name);
+
+      postImage =picked.files.first.name;
+
     }
+
+  }
+
+  CurrentUserModel currentUserModel;
+  var currentFirstNameController=TextEditingController();
+  var currentSecondNameController=TextEditingController();
+  var currentEmailController=TextEditingController();
+
+  void getCurrentUser(){
+
+    emit(GetCurrentUserLoadingState());
+    DioHelper.getData(
+        url: 'api/v1/user/me',
+    ).then((value) {
+
+      currentUserModel=CurrentUserModel.fromJson(value.data);
+      currentFirstNameController.text=value.data['data']['firstName'];
+      currentSecondNameController.text=value.data['data']['lastName'];
+      currentEmailController.text=value.data['data']['email'];
+
+
+      emit(GetCurrentUserSuccessState());
+    }).catchError((error){
+
+      print('Error in CurrentUser is ${error.toString()}');
+      emit(GetCurrentUserErrorState());
+
+    });
+  }
+
+  void updateCurrentUser({
+    String firstName,
+    String lastName,
+    String email,
+    String address,
+  }){
+
+    emit(UpdateCurrentUserLoadingState());
+    DioHelper.patchData(
+        url: 'api/v1/user/me',
+        data:{
+          "firstName": firstName,
+          "lastName": lastName,
+          "email": email,
+          "address": address
+        }
+    ).then((value) {
+
+      print(value.data);
+      getCurrentUser();
+      emit(UpdateCurrentUserSuccessState());
+    }).catchError((error){
+
+      print('Error in UpdateCurrentUser is ${error.toString()}');
+      emit(UpdateCurrentUserErrorState());
+
+    });
   }
 
   int quality =1;

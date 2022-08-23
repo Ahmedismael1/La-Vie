@@ -9,7 +9,12 @@ import 'package:la_vie/models/seeds_model.dart';
 import 'package:la_vie/models/tools_model.dart';
 import 'package:la_vie/shared/reusables/reusables_appbar.dart';
 
+import '../../shared/shared_preference/shared_preferences.dart';
+
 class HomeLayout extends StatelessWidget {
+  var now = DateTime.now().millisecondsSinceEpoch;
+var todayDateTime = CashHelper.getData(key: 'todayDateTime');
+
   @override
   Widget build(BuildContext context) {
     return
@@ -43,17 +48,20 @@ class HomeLayout extends StatelessWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
+                                if(todayDateTime!=null)
+                                  (now-todayDateTime>=604800000)?
                                 TextButton(
                                     onPressed: () {
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>QuestionLayout()));
+                                      CashHelper.saveData(
+                                          value:now,
+                                          key: 'todayDateTime').then((value) {
+                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>QuestionLayout()));
+
+
+                                      });
                                     },
                                     onHover: (value) {
-                                      Container(child: Text('Explore Now Explore Now'),
-                                        decoration: BoxDecoration(
-                                            color: Colors.black.withOpacity(0.3),
-                                            borderRadius: BorderRadius.only(bottomRight: Radius.circular(30),topRight: Radius.circular(30))
-                                        ),
-                                      );
+
                                     },
                                     child: CircleAvatar(
                                       backgroundColor: Color(0xff1abc00),
@@ -61,7 +69,7 @@ class HomeLayout extends StatelessWidget {
                                         Icons.question_mark,
                                         color: Color(0xfff7f7f7),
                                       ),
-                                    )),
+                                    )):SizedBox(),
                                 SizedBox(height: 130,),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,7 +159,7 @@ class HomeLayout extends StatelessWidget {
                           height: 300,
                           child: ListView.separated(
                               physics:const BouncingScrollPhysics(),
-                              itemBuilder: (context, index) => builderTools(index,cubit.toolsModel.toolsData[index]),
+                              itemBuilder: (context, index) => builderTools(index,cubit.toolsModel.toolsData[index],context),
                               separatorBuilder: (context, index) => const SizedBox(
                                 width: 10,
                               ),
@@ -174,7 +182,7 @@ class HomeLayout extends StatelessWidget {
                           height: 250,
                           child: ListView.separated(
                               physics:const BouncingScrollPhysics(),
-                              itemBuilder: (context, index) => builderSeeds( cubit.seedsModel.data[index]),
+                              itemBuilder: (context, index) => builderSeeds( cubit.seedsModel.data[index],context),
                               separatorBuilder: (context, index) => const SizedBox(
                                 width: 6,
                               ),
@@ -667,7 +675,7 @@ class HomeLayout extends StatelessWidget {
         },);
 
 
-  Widget builderTools(int index,ToolsData toolsData) =>InkWell(
+  Widget builderTools(int index,ToolsData toolsData,context) =>InkWell(
     child:  Padding(
       padding: const EdgeInsets.all(18.0),
       child: Container(
@@ -737,9 +745,13 @@ class HomeLayout extends StatelessWidget {
     ),
     onTap: (){
       print(toolsData.toolId);
+      Navigator.push(context, MaterialPageRoute(
+          builder: (context)=>ProductDetailsLayout(
+            id: toolsData.toolId,name:toolsData.name ,imageUrl:toolsData.imageUrl
+            ,description: toolsData.description,)));
     },);
 
-  Widget builderSeeds(SeedsData seedsData) =>InkWell(
+  Widget builderSeeds(SeedsData seedsData,context) =>InkWell(
     child:  Padding(
       padding: const EdgeInsets.all(18.0),
       child: Card(
@@ -817,6 +829,12 @@ elevation: 3,
       ),
     ),
     onTap: (){
+      AppCubit.get(context).getPlantDetails(plantId:seedsData.seedId );
+
+      Navigator.push(context, MaterialPageRoute(
+          builder: (context)=>ProductDetailsLayout(
+            id: seedsData.seedId,name:seedsData.name ,imageUrl:seedsData.imageUrl
+            ,description: seedsData.description,)));
     },);
 
 }

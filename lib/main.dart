@@ -4,6 +4,7 @@ import 'package:la_vie/app_cubit/cubit.dart';
 import 'package:la_vie/app_cubit/states.dart';
 
 import 'package:la_vie/layout/SignupAndIn/SignupAndIn_layout.dart';
+import 'package:la_vie/layout/get_seed/get_seed_layout.dart';
 import 'package:la_vie/layout/home/home_layout.dart';
 import 'package:la_vie/shared/bloc_observer/bloc_observer.dart';
 import 'package:la_vie/shared/dio/dio_helper.dart';
@@ -19,6 +20,7 @@ void main() async {
   await CashHelper.init();
   Widget widget;
   accessToken = CashHelper.getData(key: 'accessToken');
+  print(accessToken);
 
   if (accessToken != null) {
     widget=HomeLayout();
@@ -47,7 +49,8 @@ class MyApp extends StatelessWidget {
       MultiBlocProvider(
         providers: [
           BlocProvider(create:
-              (context) => AppCubit()..getPlants()..getTools()..getSeeds()..getBlogs()..getMyForums()..getALLForums())
+              (context) => AppCubit()..getPlants()..getTools()..getSeeds()..
+              getBlogs()..getMyForums()..getALLForums()..getCurrentUser())
 
         ],
         child: BlocConsumer<AppCubit, AppStates>(

@@ -62,7 +62,29 @@ class  CreatePostErrorState extends  AppStates{
   CreatePostErrorState({this.error});
 }
 
+class AddAddressLoadingState extends  AppStates{}
+class  AddAddressSuccessState extends  AppStates{}
+class  AddAddressErrorState extends  AppStates{
+  String error;
+  AddAddressErrorState({this.error});
+}
+
+class GetCurrentUserLoadingState extends  AppStates{}
+class  GetCurrentUserSuccessState extends  AppStates{}
+class  GetCurrentUserErrorState extends  AppStates{
+  String error;
+  GetCurrentUserErrorState({this.error});
+}
+
+class UpdateCurrentUserLoadingState extends  AppStates{}
+class  UpdateCurrentUserSuccessState extends  AppStates{}
+class  UpdateCurrentUserErrorState extends  AppStates{
+  String error;
+  UpdateCurrentUserErrorState({this.error});
+}
+
 class ChangeForumsState extends  AppStates{}
+class ChangeInfoState extends  AppStates{}
 
 
 

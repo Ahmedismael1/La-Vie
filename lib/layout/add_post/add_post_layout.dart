@@ -8,7 +8,7 @@ import 'package:la_vie/app_cubit/states.dart';
 import 'package:la_vie/shared/reusables/reusable_text_filed.dart';
 
 class AddPostLayout extends StatelessWidget {
-  var uploudPhotoController = TextEditingController();
+  var uploadPhotoController = TextEditingController();
   var descriptionController = TextEditingController();
   var titleController = TextEditingController();
   var addPostFormKey = GlobalKey<FormState>();
@@ -20,7 +20,11 @@ class AddPostLayout extends StatelessWidget {
 
         },
       builder: (context, state){
-          return Scaffold(
+          if(AppCubit.get(context).postImage!= null) {
+            uploadPhotoController= AppCubit.get(context).postImage;
+          }
+
+        return Scaffold(
             backgroundColor: Colors.white,
             body: Form(
               key: addPostFormKey,
@@ -90,7 +94,7 @@ crossAxisAlignment: CrossAxisAlignment.start,
 
                         Padding(
                           padding: const EdgeInsets.all(18.0),
-                          child: Text("Uploud Photo",
+                          child: Text("Upload Photo",
                             style: TextStyle(fontWeight: FontWeight.w500,
                                 color: Colors.grey,fontSize: 14),
                           ),
@@ -102,6 +106,7 @@ crossAxisAlignment: CrossAxisAlignment.start,
                                 onTap: (){
                                 },
                                 child: TextFormField(
+                                  controller: uploadPhotoController,
                                   validator: (value){
                                     if (value.isEmpty) {
                                       return "This filed must not be empty";
@@ -126,13 +131,13 @@ crossAxisAlignment: CrossAxisAlignment.start,
                                height: 45,
                                child: TextButton(
                                           onPressed: () {
-
+                                            AppCubit.get(context).getPostImage2();
                                           },
                                           style: TextButton.styleFrom(
                                             backgroundColor: Color(0xff1abc00),
                                           ),
                                           child: Text(
-                                            'Uploud',
+                                            'Upload',
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 18,
@@ -150,14 +155,13 @@ crossAxisAlignment: CrossAxisAlignment.start,
                           condition: state is! CreatePostLoadingState,
                           builder: (context) => TextButton(
                               onPressed: () {
-                            if(addPostFormKey.currentState.validate()){
                               AppCubit.get(context).createPost(
                                   image: AppCubit.get(context).postImage,
                                   title: titleController.text,
                                   description: descriptionController.text
                               );
 
-                            }
+
                               },
                               style: TextButton.styleFrom(
                                 elevation: 5,

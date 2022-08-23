@@ -41,6 +41,7 @@ dependencies:
   fluttertoast:
   shared_preferences:
   image_picker:
+  file_picker:
 
 
 dev_dependencies:

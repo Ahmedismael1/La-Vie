@@ -2,8 +2,10 @@ import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:la_vie/app_cubit/cubit.dart';
 import 'package:la_vie/layout/SignupAndIn/signupAndInLogic/cubit.dart';
 import 'package:la_vie/layout/SignupAndIn/signupAndInLogic/states.dart';
+import 'package:la_vie/layout/get_seed/get_seed_layout.dart';
 import 'package:la_vie/layout/home/home_layout.dart';
 import 'package:la_vie/shared/my_widget.dart';
 import 'package:la_vie/shared/reusables/reusable_text_filed.dart';
@@ -51,6 +53,12 @@ class SignupAndInLayout extends StatelessWidget {
                     value: state.loginModel.data.accessToken,
                     key: 'accessToken')
                 .then((value) async {
+                  AppCubit.get(context).getSeeds();
+                  AppCubit.get(context).getALLForums();
+                  AppCubit.get(context).getMyForums();
+                  AppCubit.get(context).getTools();
+                  AppCubit.get(context).getBlogs();
+                  AppCubit.get(context).getPlants();
               await Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => HomeLayout()));
             });
@@ -59,8 +67,9 @@ class SignupAndInLayout extends StatelessWidget {
                     value: state.signUpModel.data.accessToken,
                     key: 'accessToken')
                 .then((value) async {
+
               await Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => HomeLayout()));
+                  MaterialPageRoute(builder: (context) => GetSeedLayout()));
             });
           }
         },
@@ -921,7 +930,7 @@ class SignupAndInLayout extends StatelessWidget {
                                   SizedBox(
                                     height: 20,
                                   ),
-                                  ReusableTextFiled(
+                                  TextFormField(
                                     validator: (value) {
                                       if (value.isEmpty) {
                                         return "Email address must not be empty";
@@ -933,11 +942,23 @@ class SignupAndInLayout extends StatelessWidget {
 
                                       return null;
                                     },
-                                    textController: emailController,
-                                    prefixIcon: const Icon(
-                                      Icons.email,
-                                      color: Colors.grey,
-                                    ),
+                                    controller: emailController,
+                                 decoration: InputDecoration(
+                                   border: OutlineInputBorder(
+                                       borderRadius:
+                                       BorderRadius.circular(10.0)),
+                                   focusedBorder: OutlineInputBorder(
+                                     borderSide: const BorderSide(
+                                         color: Color(0xff1abc00),
+                                         width: 1.0),
+                                     borderRadius:
+                                     BorderRadius.circular(10.0),
+                                   ),
+                                   prefixIcon: const Icon(
+                                     Icons.email,
+                                     color: Colors.grey,
+                                   ),
+                                 ),
                                   ),
                                   SizedBox(
                                     height: 20,
