@@ -6,6 +6,9 @@ class AppStatesErrorState extends AppStates{
   String error;
   AppStatesErrorState({this.error});
 }
+
+class ChangeTreeState extends AppStates{}
+
 class ShowAnswerState extends AppStates{}
 class CheckTrueState extends AppStates{}
 

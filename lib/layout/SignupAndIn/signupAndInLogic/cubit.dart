@@ -38,7 +38,7 @@ class SignupAndInCubit extends Cubit<SignupAndInStates> {
       signUpModel = SignupModel.fromJson(value.data);
       print(value.data);
 
-      emit(SignupSuccessState(signUpModel: signUpModel));
+      emit(SignupSuccessState(token: signUpModel.data.accessToken));
     }).catchError((error)
     {
       if(error is DioError){
@@ -56,6 +56,9 @@ class SignupAndInCubit extends Cubit<SignupAndInStates> {
     ).then((value) {
       loginModel = LogInModel.fromJson(value.data);
       emit(LoginSuccessState(loginModel));
+    }).catchError((error) {
+      print(error);
+      emit(LoginErrorState(error: error.toString()));
     });
   }
 
@@ -88,4 +91,95 @@ class SignupAndInCubit extends Cubit<SignupAndInStates> {
 
     emit(LogInVisibilityState());
   }
+
+
+
+
+
+
+  void forgetPassword({
+
+     String email,
+
+  }){
+
+    emit(ForgetPasswordLoadingState());
+    DioHelper.postData(
+        url: 'api/v1/auth/forget-password',
+        data: {
+          "email": email,
+        }
+    ).then((value) {
+
+      print(value.data['message']);
+      emit(ForgetPasswordSuccessState());
+    }).catchError((error){
+
+      print('Error in ForgetPassword is ${error.toString()}');
+      emit(ForgetPasswordErrorState());
+
+    });
+
+  }
+
+  void verifyOtp({
+
+     String email,
+     String otpCode,
+
+  }){
+
+    emit(VerifyOTPLoadingState());
+    DioHelper.postData(
+        url: 'api/v1/auth/verify-otp',
+        data: {
+          "email": email,
+          "otp":otpCode
+        }
+    ).then((value) {
+
+      print(value.data['message']);
+      emit(VerifyOTPSuccessState());
+    }).catchError((error){
+
+      print('Error in VerifiyOTP is ${error.toString()}');
+      emit(VerifyOTPErrorState());
+
+    });
+
+  }
+
+
+  void resetPassword({
+
+     String email,
+     String otpCode,
+     String password,
+
+
+  }){
+
+    emit(ResetPasswordLoadingState());
+    DioHelper.postData(
+        url: 'api/v1/auth/reset-password',
+        data: {
+          "email": email,
+          "otp":otpCode,
+          "password":password
+        }
+    ).then((value) {
+
+      print(value.data['message']);
+      print(value.data);
+      emit(ResetPasswordSuccessState());
+    }).catchError((error){
+
+      print('Error in ResetPassword is ${error.toString()}');
+      emit(ResetPasswordErrorState());
+
+    });
+
+  }
+
+
 }

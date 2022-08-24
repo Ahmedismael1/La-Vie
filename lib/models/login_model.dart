@@ -52,7 +52,7 @@ class User {
   String  lastName;
   String  email;
   String  imageUrl;
-  Null address;
+  String address;
   String role;
 
   User(

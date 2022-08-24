@@ -5,11 +5,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:la_vie/app_cubit/cubit.dart';
 import 'package:la_vie/layout/SignupAndIn/signupAndInLogic/cubit.dart';
 import 'package:la_vie/layout/SignupAndIn/signupAndInLogic/states.dart';
+import 'package:la_vie/layout/forget_password/forget_password_layout.dart';
 import 'package:la_vie/layout/get_seed/get_seed_layout.dart';
 import 'package:la_vie/layout/home/home_layout.dart';
 import 'package:la_vie/shared/my_widget.dart';
 import 'package:la_vie/shared/reusables/reusable_text_filed.dart';
 import 'package:la_vie/shared/shared_preference/shared_preferences.dart';
+
+import '../../shared/constants/access_token.dart';
 
 class SignupAndInLayout extends StatelessWidget {
   var passwordController = TextEditingController();
@@ -53,24 +56,31 @@ class SignupAndInLayout extends StatelessWidget {
                     value: state.loginModel.data.accessToken,
                     key: 'accessToken')
                 .then((value) async {
-                  AppCubit.get(context).getSeeds();
+
+              AppCubit.get(context).getSeeds();
                   AppCubit.get(context).getALLForums();
                   AppCubit.get(context).getMyForums();
                   AppCubit.get(context).getTools();
                   AppCubit.get(context).getBlogs();
                   AppCubit.get(context).getPlants();
+                  AppCubit.get(context).getCurrentUser();
               await Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => HomeLayout()));
             });
-          } else if (state is SignupSuccessState) {
+            accessToken = state.loginModel.data.accessToken;
+
+          }
+          else if (state is SignupSuccessState) {
             CashHelper.saveData(
-                    value: state.signUpModel.data.accessToken,
+                    value: state.token,
                     key: 'accessToken')
                 .then((value) async {
 
               await Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => GetSeedLayout()));
             });
+            accessToken = state.token;
+
           }
         },
         builder: (context, state) {
@@ -1040,7 +1050,7 @@ class SignupAndInLayout extends StatelessWidget {
                                           backgroundColor: Color(0xff1abc00),
                                         ),
                                         child: Text(
-                                          'Sign Up',
+                                          'Sign in',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 22,
@@ -1075,6 +1085,17 @@ class SignupAndInLayout extends StatelessWidget {
                                           color: Color(0xff1ABC00))),
                                 )
                               ],
+                            ),
+                            TextButton(
+                              onPressed: (){
+                                Navigator.pushReplacement(context,
+                                    MaterialPageRoute(builder: (context) => ForgetPasswordLayout()));
+                              },
+
+                              child: Text('Forget Password ',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xff1ABC00))),
                             ),
                             SizedBox(
                               height: 25,

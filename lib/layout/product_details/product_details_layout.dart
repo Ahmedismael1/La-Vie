@@ -16,12 +16,10 @@ class ProductDetailsLayout extends StatelessWidget {
     return BlocConsumer<AppCubit,AppStates>(
         listener: (context,state){},
       builder: (context,state){
-          PlantDetailsModel plantDetailsModel;
-        plantDetailsModel =  AppCubit.get(context).plantDetails  ;
 
-        return
-            (AppCubit.get(context).plantDetails !=null)?
-            Scaffold(
+
+
+          return  Scaffold(
       body: SingleChildScrollView(
         child: Stack(
           alignment: AlignmentDirectional.topEnd,
@@ -94,7 +92,7 @@ class ProductDetailsLayout extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.all(18.0),
                               child: Text(
-                                'EGP ${plantDetailsModel.data.price}.00',
+                                'EGP 800.00',
                                 style: TextStyle(
                                     color: Color(0xff1ABC00),
                                     fontSize: 16,
@@ -120,7 +118,7 @@ class ProductDetailsLayout extends StatelessWidget {
                                                 RichText(
                                                   text: TextSpan(children: [
                                                     TextSpan(
-                                                      text: '${plantDetailsModel.data.plant.sunLight/10}',
+                                                      text: '${502/10}',
                                                       style: TextStyle(
                                                           color: Colors.black,
                                                           fontSize: 20,
@@ -167,7 +165,7 @@ class ProductDetailsLayout extends StatelessWidget {
                                                 RichText(
                                                   text: TextSpan(children: [
                                                     TextSpan(
-                                                      text: '${plantDetailsModel.data.plant.waterCapacity/10}',
+                                                      text: '${658/10}',
                                                       style: TextStyle(
                                                           color: Colors.black,
                                                           fontSize: 20,
@@ -215,7 +213,7 @@ class ProductDetailsLayout extends StatelessWidget {
                                                 RichText(
                                                   text: TextSpan(children: [
                                                     TextSpan(
-                                                      text: '${plantDetailsModel.data.plant.temperature/10}',
+                                                      text: '${850/10}',
                                                       style: TextStyle(
                                                           color: Colors.black,
                                                           fontSize: 20,
@@ -347,12 +345,7 @@ class ProductDetailsLayout extends StatelessWidget {
           ],
         )
       ),
-    ):Container(
-              height: 600,
-              child: Center(child:
-              CircularProgressIndicator(strokeWidth: 2
-                  ,backgroundColor: Colors.grey)),
-            );
+    );
           }
           ,);
   }

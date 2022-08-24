@@ -13,10 +13,10 @@ import 'package:la_vie/models/plant_details_model.dart';
 import 'package:la_vie/models/plants_model.dart';
 import 'package:la_vie/models/seeds_model.dart';
 import 'package:la_vie/models/tools_model.dart';
-import 'package:la_vie/shared/constants/access_token.dart';
 import 'package:la_vie/shared/dio/dio_helper.dart';
 
 import '../models/current_user_model.dart';
+import '../models/get_seed_model.dart';
 
 class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(AppStatesInitialState());
@@ -39,6 +39,13 @@ class AppCubit extends Cubit<AppStates> {
           emit(GetPlantsErrorState(error: error.toString()));
 
     });
+
+  }
+
+  bool isTree=true;
+  void changeTree(){
+    isTree =! isTree;
+    emit(ChangeTreeState());
 
   }
 
@@ -129,7 +136,6 @@ MyForumsModel myForumsModel;
       url: 'api/v1/forums/me' ,
     ).then((value) {
       myForumsModel=MyForumsModel.fromJson(value.data);
-
       emit(GetMyForumsSuccessState());
     }).catchError((error){
 
@@ -198,7 +204,7 @@ MyForumsModel myForumsModel;
     isChangeProfile=!isChangeProfile;
     emit(ChangeInfoState());
   }
-
+GetSeedModel getSeedModel;
   void sendAddress({
      String address,
   }){
@@ -211,14 +217,11 @@ MyForumsModel myForumsModel;
           "address": address,
         }
     ).then((value) {
+      getSeedModel=GetSeedModel.fromJson(value.data);
 
       print(value.data);
       emit(AddAddressSuccessState());
 
-    }).catchError((error){
-
-      print('Error in send address is ${error.toString()}');
-      emit(AddAddressErrorState());
     });
 
 

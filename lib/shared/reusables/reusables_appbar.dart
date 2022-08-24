@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:la_vie/app_cubit/cubit.dart';
 import 'package:la_vie/layout/Cart/cart_layout.dart';
 import 'package:la_vie/layout/Forums/forums_layout.dart';
+import 'package:la_vie/layout/about_us/about_us_layout.dart';
 import 'package:la_vie/layout/blogs/blogs_layout.dart';
 import 'package:la_vie/layout/home/home_layout.dart';
 import 'package:la_vie/layout/my_profile/my_profile_layout.dart';
@@ -88,7 +89,7 @@ Widget buildAppbar(context){
               style:
               TextButton.styleFrom(padding: EdgeInsets.all(35)),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeLayout()));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>AboutUsLayout()));
                 aboutColor=Color(0xff1abc00);
                 blogColor =Colors.black;
                 shopColor =Colors.black;
@@ -136,10 +137,13 @@ Widget buildAppbar(context){
               icon: Icon(Icons.shopping_cart),
               iconSize: 20,
             ),
-            IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.notifications),
-                iconSize: 20),
+              PopupMenuButton(itemBuilder: (BuildContext context) =>[
+                PopupMenuItem(child:notificationItemWithOutComment(context),),
+                PopupMenuItem(child:notificationItemWithComment(context),),
+              PopupMenuItem(child:notificationItemWithOutComment(context),)
+              ],child: Icon(Icons.notifications),elevation: 5,),
+
+
             TextButton(
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>MyProfileLayout()));
@@ -158,3 +162,146 @@ Widget buildAppbar(context){
     ],
   );
 }
+Widget notificationItemWithComment (context)=>Padding(
+  padding: const EdgeInsets.all(8.0),
+  child: Container(
+    child: Column(
+      crossAxisAlignment : CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            CircleAvatar(
+              backgroundImage: NetworkImage(
+                AppCubit.get(context).currentUserModel.data.imageUrl,
+              ),
+              radius: 16.0,
+            ),
+            Text(
+              'Joy Arnold ',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 16.0,
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Dennis Nedry commented on Isla Nublar SOC2 compliance report',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Colors.black,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+            const SizedBox(
+              height: 8.0,
+            ),
+            Container(
+              height: 70.0,
+              decoration: BoxDecoration(
+                border: Border(
+                    left: BorderSide(
+                      width: 4.0,
+                      color: Colors.grey,
+                    )
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: Text(
+                  'leaves are an integral part of the stem system. They are attached by a continuous vascular system to the rest of the plant so that free exchange of nutrients.',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black54,
+                  ),
+                  maxLines: 4,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 8.0,
+            ),
+            Text(
+              'Yesterday at 11:42 PM',
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+                color: Colors.grey,
+              ),
+            ),
+          ],
+        ),
+      ],
+    ),
+  ),
+);
+
+Widget notificationItemWithOutComment (context)=>Padding(
+  padding: const EdgeInsets.all(8.0),
+  child: Container(
+    child: Column(
+      crossAxisAlignment : CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            CircleAvatar(
+              backgroundImage:  NetworkImage(
+                AppCubit.get(context).currentUserModel.data.imageUrl,
+              ),
+              radius: 16.0,
+            ),
+            SizedBox(width: 10,),
+            Text(
+              'Joy Arnold ',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 16.0,
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Text(
+              'Joy Arnold left 6 comments on Your Post',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Colors.black,
+              ),
+            ),
+            SizedBox(
+              height: 4.0,
+            ),
+            Text(
+              'Yesterday at 11:42 PM',
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+                color: Colors.grey,
+              ),
+            ),
+          ],
+        ),
+      ],
+    ),
+  ),
+);

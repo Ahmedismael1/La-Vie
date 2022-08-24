@@ -26,6 +26,13 @@ class GetSeedLayout extends StatelessWidget {
               backgroundColor: Colors.red,
               textColor: Colors.white,
               fontSize: 16.0);
+          AppCubit.get(context).getSeeds();
+          AppCubit.get(context).getALLForums();
+          AppCubit.get(context).getMyForums();
+          AppCubit.get(context).getTools();
+          AppCubit.get(context).getBlogs();
+          AppCubit.get(context).getPlants();
+          AppCubit.get(context).getCurrentUser();
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) => HomeLayout()));
 
@@ -86,12 +93,7 @@ class GetSeedLayout extends StatelessWidget {
                         onPressed: () {
                           if(getSeedFormKey.currentState.validate())
                           {
-                            AppCubit.get(context).getSeeds();
-                            AppCubit.get(context).getALLForums();
-                            AppCubit.get(context).getMyForums();
-                            AppCubit.get(context).getTools();
-                            AppCubit.get(context).getBlogs();
-                            AppCubit.get(context).getPlants();
+
                             AppCubit.get(context).sendAddress(
                                 address: addressController.text
                             );

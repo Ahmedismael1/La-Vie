@@ -53,7 +53,9 @@ class DioHelper {
       url,
       queryParameters: query,
       data: data,
-    );
+    ).catchError((error) {
+      print('error in Post Data Dio ${error.toString()}');
+    });
   }
 
   static Future<Response> putData({

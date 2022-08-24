@@ -42,6 +42,8 @@ dependencies:
   shared_preferences:
   image_picker:
   file_picker:
+  url_launcher:
+  google_sign_in:
 
 
 dev_dependencies:

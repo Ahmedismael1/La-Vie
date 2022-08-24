@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:la_vie/app_cubit/cubit.dart';
 import 'package:la_vie/app_cubit/states.dart';
+import 'package:la_vie/layout/SignupAndIn/SignupAndIn_layout.dart';
 import 'package:la_vie/shared/my_widget.dart';
 import 'package:la_vie/shared/reusables/reusables_appbar.dart';
+import 'package:la_vie/shared/shared_preference/shared_preferences.dart';
 
 import '../../shared/reusables/reusable_text_filed.dart';
 
@@ -27,12 +29,46 @@ class MyProfileLayout extends StatelessWidget {
              SizedBox(
                height: 20,
              ),
-             Text(
-               'My Profile',
-               style: TextStyle(
-                 color: Colors.black,
-                 fontSize: 28,
-                 fontWeight: FontWeight.bold,
+             Padding(
+               padding: const EdgeInsets.all(30.0),
+               child: Row(
+                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                 children: [
+                   Text(
+                     'My Profile',
+                     style: TextStyle(
+                       color: Colors.black,
+                       fontSize: 28,
+                       fontWeight: FontWeight.bold,
+                     ),
+                   ),
+                   TextButton(
+                       onPressed: () {
+                         CashHelper.removeData(key: 'accessToken').then((value) {
+                           if (value) {
+                             AppCubit.get(context).currentUserModel.toJson().clear();
+                             Navigator.pushAndRemoveUntil(
+                                 context,
+                                 MaterialPageRoute(
+                                     builder: (context) => SignupAndInLayout()),(route)=>false);
+
+                           }
+                         });
+
+                       },
+                       style: TextButton.styleFrom(
+                         fixedSize: Size(172, 40),
+                         backgroundColor: Color(0xff1abc00),
+                       ),
+                       child: Text(
+                         'Logout',
+                         style: TextStyle(
+                           color: Colors.white,
+                           fontSize: 18,
+                           fontWeight: FontWeight.w300,
+                         ),
+                       )),
+                 ],
                ),
              ),
              SizedBox(

@@ -8,10 +8,18 @@ import 'package:la_vie/app_cubit/states.dart';
 import 'package:la_vie/layout/home/home_layout.dart';
 import 'package:la_vie/layout/questions/question_list.dart';
 import 'package:la_vie/shared/my_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../shared/reusables/reusables_appbar.dart';
 
 class QuestionLayout extends StatelessWidget {
+  final Uri _url = Uri.parse('https://aboutplants.com/');
+
+  Future<void> _pantUrl() async {
+    if (!await launchUrl(_url)) {
+      throw 'Could not launch $_url';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -154,8 +162,9 @@ class QuestionLayout extends StatelessWidget {
                                             color: Color(0xff6F6F6F))),
                                     child: TextButton(
                                         onPressed: () {
-
-
+                                          _pantUrl();
+                                          Navigator.pushReplacement(context,
+                                              MaterialPageRoute(builder: (context)=>HomeLayout()));
                                         },
                                         child: Row(
                                           mainAxisAlignment:

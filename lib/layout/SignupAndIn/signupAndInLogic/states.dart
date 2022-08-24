@@ -16,8 +16,8 @@ class LogInVisibilityState extends SignupAndInStates{}
 
 class SignupLoadingState extends SignupAndInStates{}
 class SignupSuccessState extends SignupAndInStates{
-  final SignupModel signUpModel;
-  SignupSuccessState({this.signUpModel});
+  final String token;
+  SignupSuccessState({this.token});
 }
 class SignupErrorState extends SignupAndInStates{
   String error;
@@ -35,3 +35,15 @@ class LoginErrorState extends SignupAndInStates{
   final String error;
   LoginErrorState({this.error});
 }
+
+class ForgetPasswordLoadingState extends SignupAndInStates{}
+class ForgetPasswordSuccessState extends SignupAndInStates{}
+class ForgetPasswordErrorState extends SignupAndInStates{}
+
+class VerifyOTPLoadingState extends SignupAndInStates{}
+class VerifyOTPSuccessState extends SignupAndInStates{}
+class VerifyOTPErrorState extends SignupAndInStates{}
+
+class ResetPasswordLoadingState extends SignupAndInStates{}
+class ResetPasswordSuccessState extends SignupAndInStates{}
+class ResetPasswordErrorState extends SignupAndInStates{}

@@ -4,6 +4,7 @@ import 'package:la_vie/app_cubit/cubit.dart';
 import 'package:la_vie/app_cubit/states.dart';
 
 import 'package:la_vie/layout/SignupAndIn/SignupAndIn_layout.dart';
+import 'package:la_vie/layout/forget_password/forget_password_layout.dart';
 import 'package:la_vie/layout/get_seed/get_seed_layout.dart';
 import 'package:la_vie/layout/home/home_layout.dart';
 import 'package:la_vie/shared/bloc_observer/bloc_observer.dart';

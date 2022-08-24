@@ -8,13 +8,37 @@ import 'package:la_vie/models/plants_model.dart';
 import 'package:la_vie/models/seeds_model.dart';
 import 'package:la_vie/models/tools_model.dart';
 import 'package:la_vie/shared/reusables/reusables_appbar.dart';
+import 'package:la_vie/shared/reusables/reusables_end_bar.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../shared/shared_preference/shared_preferences.dart';
 
 class HomeLayout extends StatelessWidget {
-  var now = DateTime.now().millisecondsSinceEpoch;
-var todayDateTime = CashHelper.getData(key: 'todayDateTime');
+var todayDateTime ;
+var savedTime=CashHelper.getData(key: 'todayDateTime');
+var now = DateTime.now().millisecondsSinceEpoch.toInt();
+final Uri _playStoreUrl = Uri.parse('https://play.google.com/store/games');
 
+Future<void> _launchPlayStoreUrl() async {
+  if (!await launchUrl(_playStoreUrl)) {
+    throw 'Could not launch $_playStoreUrl';
+  }
+}
+
+final Uri __appStoreUrl = Uri.parse('https://www.apple.com/app-store/');
+
+Future<void> _launchAppStoreUrl() async {
+  if (!await launchUrl(__appStoreUrl)) {
+    throw 'Could not launch $__appStoreUrl';
+  }
+}
+final Uri _url = Uri.parse('https://aboutplants.com/');
+
+Future<void> _plantUrl() async {
+  if (!await launchUrl(_url)) {
+    throw 'Could not launch $_url';
+  }
+}
   @override
   Widget build(BuildContext context) {
     return
@@ -24,7 +48,8 @@ var todayDateTime = CashHelper.getData(key: 'todayDateTime');
           builder: (context,state){
             var cubit= AppCubit.get(context);
             return
-              (cubit.plantsModel!= null&&cubit.toolsModel!=null&&cubit.seedsModel!=null)?
+              (cubit.plantsModel!= null&&cubit.toolsModel!=null&&cubit.seedsModel!=null
+                  &&cubit.currentUserModel!=null)?
               SingleChildScrollView(
                 child: Stack(
                   alignment: AlignmentDirectional.topEnd,
@@ -41,24 +66,34 @@ var todayDateTime = CashHelper.getData(key: 'todayDateTime');
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Image(
-                              image: AssetImage('images/tree.jpeg'),
-                              width: MediaQuery.of(context).size.width * 0.45,
+                            GestureDetector(
+                              onTap: (){
+                                cubit.changeTree();
+                              },
+                              child: AnimatedContainer(
+                                width: cubit.isTree?MediaQuery.of(context).size.width * 0.50:MediaQuery.of(context).size.width * 0.49,
+                                duration: Duration(seconds: 1),
+                                child:Image(
+                                  image:(cubit.isTree)? AssetImage('images/tree.jpeg'): AssetImage('images/leaves_image.png'),
+                                )
+                              ),
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                if(todayDateTime!=null)
-                                  (now-todayDateTime>=604800000)?
+                                (savedTime!=null)?
+                                (now-savedTime>=604800000)?
                                 TextButton(
                                     onPressed: () {
+                                      todayDateTime =DateTime.now().millisecondsSinceEpoch.toInt();
                                       CashHelper.saveData(
-                                          value:now,
-                                          key: 'todayDateTime').then((value) {
+                                        key: 'todayDateTime',value: todayDateTime
+                                      ).then((value) {
+                                        print(todayDateTime-now);
                                         Navigator.push(context, MaterialPageRoute(builder: (context)=>QuestionLayout()));
 
-
                                       });
+
                                     },
                                     onHover: (value) {
 
@@ -69,7 +104,28 @@ var todayDateTime = CashHelper.getData(key: 'todayDateTime');
                                         Icons.question_mark,
                                         color: Color(0xfff7f7f7),
                                       ),
-                                    )):SizedBox(),
+                                    )):SizedBox(): TextButton(
+                                    onPressed: () {
+                                      todayDateTime =DateTime.now().millisecondsSinceEpoch.toInt();
+                                      CashHelper.saveData(
+                                          key: 'todayDateTime',value: todayDateTime
+                                      ).then((value) {
+                                        print(todayDateTime-now);
+                                         Navigator.push(context, MaterialPageRoute(builder: (context)=>QuestionLayout()));
+
+                                      });
+
+                                    },
+                                    onHover: (value) {
+
+                                    },
+                                    child: CircleAvatar(
+                                      backgroundColor: Color(0xff1abc00),
+                                      child: Icon(
+                                        Icons.question_mark,
+                                        color: Color(0xfff7f7f7),
+                                      ),
+                                    )),
                                 SizedBox(height: 130,),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,7 +155,9 @@ var todayDateTime = CashHelper.getData(key: 'todayDateTime');
                                           BorderRadius.all(Radius.circular(10)),
                                         ),
                                         child: TextButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              _plantUrl();
+                                            },
                                             style: TextButton.styleFrom(
                                               fixedSize: Size(172, 40),
                                               backgroundColor: Color(0xff1abc00),
@@ -315,7 +373,9 @@ var todayDateTime = CashHelper.getData(key: 'todayDateTime');
                                         border: Border.all(
                                             color: Color(0xff6F6F6F))),
                                     child: TextButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          _launchPlayStoreUrl();
+                                        },
                                         child: Row(
                                           mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -386,217 +446,21 @@ var todayDateTime = CashHelper.getData(key: 'todayDateTime');
 
                         SizedBox(height: 20,),
 
-                        Container(
-                          height: 160,
-                          width: MediaQuery.of(context).size.width,
-                          color: Color(0xffFAFAFA
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 70),
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width*0.3,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Image.asset('images/logo.jpeg',
-                                          fit: BoxFit.fill, width: 100, height: 50),
-                                      SizedBox(height: 10,),
-                                      RichText(text: TextSpan(children: [
-                                        TextSpan(text: 'LA VIE',style: TextStyle(color:Color(0xff1abc00) )),
-                                        TextSpan(text: ' We\'re dedicated to giving you the very best of plants, with a focus on dependability'),
-
-                                      ])),
-                                    ],),
-                                ),
-                              ),
-                              SizedBox(width: MediaQuery.of(context).size.width*0.01,),
-
-                              Container(
-                                width: MediaQuery.of(context).size.width*0.13,
-
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
-                                    Text("Sections",style: TextStyle(
-                                      color: Color(0xff1abc00),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                    ),),
-                                    SizedBox(height: 5,),
-                                    Text("Home",style: TextStyle(
-                                      color: Color(0xff979797),
-                                      fontSize: 14,
-                                    ),),
-                                    SizedBox(height: 5,),
-
-                                    Text("category",style: TextStyle(
-                                      color: Color(0xff979797),
-                                      fontSize: 14,
-                                    ),),
-                                    SizedBox(height: 5,),
-
-                                    Text("new",style: TextStyle(
-                                        color: Color(0xff979797),
-                                        fontSize: 14
-                                    ),),
-                                    SizedBox(height: 5,),
-
-                                    Text("request to be seller",style: TextStyle(
-                                        color: Color(0xff979797),
-                                        fontSize: 14
-                                    ),),
-                                  ],),
-                              ),
-                              SizedBox(width: MediaQuery.of(context).size.width*0.01,),
-
-                              Container(
-                                width: MediaQuery.of(context).size.width*0.15,
-
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
-                                    Text("CONTACT US",style: TextStyle(
-                                      color: Color(0xff1abc00),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                    ),),
-                                    SizedBox(height: 8,),
-                                    Text("Phone: 010978327050 ",style: TextStyle(
-                                      color: Color(0xff979797),
-                                      fontSize: 12,
-                                    ),),
-                                    SizedBox(height: 8,),
-
-                                    Text("Telephone: 02246832755",style: TextStyle(
-                                        color: Color(0xff979797),
-                                        fontSize: 12
-                                    ),),
-                                    SizedBox(height: 8,),
-
-                                    Text(" Email : ahmed@gmail.com",style: TextStyle(
-                                      color: Color(0xff979797),
-                                      fontSize: 12,
-                                    ),),
-
-                                    SizedBox(height: 8,),
-
-                                    Text("Address : 6 October city ,Giza ,egypt",style: TextStyle(
-                                        color: Color(0xff979797),
-                                        fontSize: 12
-                                    ),),
-                                  ],),
-                              ),
-                              SizedBox(width: MediaQuery.of(context).size.width*0.01,),
-
-                              Expanded(
-
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children:  [
-                                    Container(
-                                      width: MediaQuery.of(context).size.width*0.25,
-                                      child: Text("SIGN FOR OUR NEWLETEER AND GET A 10% DISCOUNT"
-                                        ,style: TextStyle(
-
-                                          color: Color(0xff1abc00),
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                        ),maxLines: 2,),
-                                    ),
-                                    Row(
-                                      children: [
-                                        Container(
-                                          width: MediaQuery.of(context).size.width*0.16,
-                                          child: TextField(
-                                            decoration: InputDecoration(
-                                                hintStyle: const TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-
-                                                hintText: 'Your email address'
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          height: 40,
-                                          width: MediaQuery.of(context).size.width*0.1,
-                                          margin: const EdgeInsets.all(15.0),
-                                          padding: const EdgeInsets.all(3.0),
-                                          decoration: BoxDecoration(
-                                              color: Color(0xffFAFAFA),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(5)),
-                                              border: Border.all(
-                                                  color: Color(0xff6F6F6F))),
-                                          child: TextButton(
-                                              onPressed: () {},
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                                children: const [
-
-                                                  SizedBox(
-                                                    width: 5,
-                                                  ),
-                                                  Text(
-                                                    'Submit',
-                                                    style: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontWeight: FontWeight.w500,
-                                                    ),
-                                                  )
-                                                ],
-                                              )),
-                                        ),
-
-                                      ],
-                                    ),
-                                    Text("OUR SOCIAL"
-                                      ,style: TextStyle(
-
-                                        color: Color(0xff1abc00),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                      ),maxLines: 2,),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        IconButton(onPressed: (){}, icon: Icon(Icons.facebook)),
-
-                                        InkWell(onTap: (){},
-                                          child: Image(image: AssetImage('images/insta.png'),height:   20,width: 20,),
-                                        ),
-                                        SizedBox(width: 10,),
-                                        InkWell(onTap: (){},
-                                          child: Image(image: AssetImage('images/twit.png'),height:   20,width: 20,),
-                                        ),
-                                      ],)
-
-
-                                  ],),
-                              ),
-
-                            ],),
-
-                        )
-
+                        buildEndBar(context)
 
                       ],
                     )
                   ],
                 ),
               )
-                  :Container(
+                  :SingleChildScrollView(
+                    child: Container(
                 height: 600,
                 child: Center(child:
                 CircularProgressIndicator(strokeWidth: 2
-                    ,backgroundColor: Colors.grey)),
-              );
+                      ,backgroundColor: Colors.grey)),
+              ),
+                  );
 
 
           },
@@ -664,15 +528,11 @@ var todayDateTime = CashHelper.getData(key: 'todayDateTime');
     onTap: (){
       print(plantsData.plantId);
 
-      AppCubit.get(context).getPlantDetails(plantId:plantsData.plantId );
       Navigator.push(context, MaterialPageRoute(
           builder: (context)=>ProductDetailsLayout(
             id: plantsData.plantId,name:plantsData.name ,imageUrl:plantsData.imageUrl
             ,description: plantsData.description,)));
-      print(plantsData.name);
-      print(plantsData.imageUrl);
-      print(plantsData.description);
-        },);
+       },);
 
 
   Widget builderTools(int index,ToolsData toolsData,context) =>InkWell(
@@ -829,7 +689,6 @@ elevation: 3,
       ),
     ),
     onTap: (){
-      AppCubit.get(context).getPlantDetails(plantId:seedsData.seedId );
 
       Navigator.push(context, MaterialPageRoute(
           builder: (context)=>ProductDetailsLayout(
